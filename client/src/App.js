@@ -13,6 +13,11 @@ function App() {
   const joinRoom = () => {
     if (username !== "" && room !== "") {
       socket.emit("join_room", room);
+      socket.emit("new_user", {
+        room,
+        username,
+        time: new Date().toLocaleTimeString(),
+      });
       setShowChat(true);
     }
   };
@@ -39,7 +44,12 @@ function App() {
           <button onClick={joinRoom}>Join A Room</button>
         </div>
       ) : (
-        <Chat socket={socket} username={username} room={room} />
+        <Chat
+          socket={socket}
+          username={username}
+          room={room}
+          setShowChat={setShowChat}
+        />
       )}
     </div>
   );

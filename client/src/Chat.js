@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
-function Chat({ socket, username, room }) {
+import "./App.css";
+function Chat({ socket, username, room, setShowChat }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
@@ -10,10 +11,8 @@ function Chat({ socket, username, room }) {
         room: room,
         author: username,
         message: currentMessage,
-        time:
-          new Date(Date.now()).getHours() +
-          ":" +
-          new Date(Date.now()).getMinutes(),
+        time: new Date().toLocaleTimeString(),
+        noti: "",
       };
 
       await socket.emit("send_message", messageData);
@@ -21,17 +20,49 @@ function Chat({ socket, username, room }) {
       setCurrentMessage("");
     }
   };
-
+  const Exit = () => {
+    if (username !== "" && room !== "") {
+      socket.emit("exit", {
+        room,
+        username,
+        time: new Date().toLocaleTimeString(),
+      });
+      setShowChat(false);
+    }
+  };
+  useEffect(() => {
+    socket.on("user_exit", (data) => {
+      console.log(data);
+      setMessageList([
+        ...messageList,
+        {
+          message: `${data.username} left the conversation room ${data.room} at ${data.time}`,
+        },
+      ]);
+    });
+  });
+  useEffect(() => {
+    socket.on("new_user", (data) => {
+      console.log(data);
+      setMessageList([
+        ...messageList,
+        {
+          message: `${data.username} Connected in room ${data.room} at ${data.time}`,
+        },
+      ]);
+    });
+  });
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
+      console.log(data);
     });
   }, [socket]);
 
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>Live Chat</p>
+        <p>{room}</p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
@@ -41,15 +72,32 @@ function Chat({ socket, username, room }) {
                 className="message"
                 id={username === messageContent.author ? "you" : "other"}
               >
-                <div>
-                  <div className="message-content">
-                    <p>{messageContent.message}</p>
+                {messageContent.noti !== "" ? (
+                  <div>
+                    <div className="message-meta">
+                      <p>
+                        <em>
+                          {messageContent.message}
+                          <p>{messageContent.time}</p>
+                        </em>
+                      </p>
+                    </div>
+                    <div className="message-meta">
+                      <p id="time">{messageContent.time}</p>
+                      <p id="author">{messageContent.author}</p>
+                    </div>
                   </div>
-                  <div className="message-meta">
-                    <p id="time">{messageContent.time}</p>
-                    <p id="author">{messageContent.author}</p>
+                ) : (
+                  <div>
+                    <div className="message-content">
+                      <p>{messageContent.message}</p>
+                    </div>
+                    <div className="message-meta">
+                      <p id="time">{messageContent.time}</p>
+                      <p id="author">{messageContent.author}</p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           })}
@@ -68,6 +116,9 @@ function Chat({ socket, username, room }) {
           }}
         />
         <button onClick={sendMessage}>&#9658;</button>
+      </div>
+      <div className="exitbutton">
+        <button onClick={Exit}>Exit</button>
       </div>
     </div>
   );

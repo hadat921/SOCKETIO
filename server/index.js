@@ -19,14 +19,24 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data);
+    console.log(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+  socket.on("new_user", (data) => {
+    socket.to(data.room).emit("new_user", data);
+    console.log(data.time);
   });
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
+    console.log(data);
+  });
+  socket.on("exit", (data) => {
+    socket.to(data.room).emit("user_exit", data);
   });
 
   socket.on("disconnect", () => {
+    socket.to().emit("exit_user", socket.id);
     console.log("User Disconnected", socket.id);
   });
 });
