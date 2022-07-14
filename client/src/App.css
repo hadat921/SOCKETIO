@@ -66,19 +66,42 @@ body {
   cursor: pointer;
 }
 .chat-window .chat-header p {
-  display: block;
-  padding: 0 1em 0 2em;
-  color: rgb(7, 7, 7);
+  margin: auto;
+  max-width: 550px;
+  font: 15px arial, sans-serif;
+  background-color: rgb(24, 190, 231);
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 20px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+  padding-left: 25px;
+  box-shadow: 5px 5px 5px rgb(10, 8, 8);
+  border-radius: 15px;
+  height: calc(450px - (45px + 70px));
+  border: 1px solid #010507;
+  background: rgb(34, 144, 235);
+  position: relative;
   text-align: center;
-  font-weight: 700;
-  line-height: 45px;
+  font-size: 22px;
 }
 
 .chat-window .chat-body {
+  margin: auto;
+  max-width: 550px;
+  font: 15px arial, sans-serif;
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 20px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+  padding-left: 25px;
+  box-shadow: 5px 5px 5px grey;
+  border-radius: 15px;
   height: calc(450px - (45px + 70px));
   border: 1px solid #263238;
   background: #fff;
-
   position: relative;
 }
 .chat-window .chat-body .message-container {
@@ -103,7 +126,7 @@ body {
   min-height: 35px;
   max-width: 11111120px;
   background-color: #43a047;
-  border-radius: 10px;
+  border-radius: 10 px;
   color: white;
   display: flex;
   align-items: center;
@@ -121,6 +144,7 @@ body {
 
 #other .message-content {
   justify-content: flex-start;
+  border-radius: 10px;
 }
 
 #you .message-meta {
@@ -135,6 +159,7 @@ body {
 #you .message-content {
   justify-content: flex-end;
   background-color: rgb(17, 91, 238);
+  border-radius: 10px;
 }
 
 #you .message-meta {
@@ -153,10 +178,11 @@ body {
 }
 
 .chat-window .chat-footer {
-  height: 40px;
+  height: 50px;
   border: 1px solid #263238;
   border-top: none;
   display: flex;
+  border-radius: 10px;
 }
 
 .chat-window .chat-footer input {
@@ -200,29 +226,40 @@ body {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
-.exitbutton input {
-  width: 110px;
+.exitChatContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.exitChatContainer h3 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+.exitChatContainer input {
+  width: 210px;
   height: 40px;
   margin: 7px;
-  border: 2px solid #e4510d;
+  border: 2px solid #bb9b0e;
   border-radius: 5px;
   padding: 5px;
   font-size: 16px;
 }
 
-.exitbutton button {
-  width: 125px;
+.exitChatContainer button {
+  width: 225px;
   height: 50px;
   margin: 7px;
   border: none;
   border-radius: 5px;
   padding: 5px;
   font-size: 16px;
-  background: #ee2a07;
+  background: #bb9b0e;
   color: #fff;
   cursor: pointer;
 }
 
-.exitbutton button:hover {
-  background: #ee4908;
+.exitChatContainer button:hover {
+  background: #bb9b0e;
 }
+

@@ -117,8 +117,8 @@ function Chat({ socket, username, room, setShowChat }) {
         />
         <button onClick={sendMessage}>&#9658;</button>
       </div>
-      <div className="exitbutton">
-        <button onClick={Exit}>Exit</button>
+      <div className="exitChatContainer">
+        <button onClick={Exit}>Thoát cuộc trò chuyện</button>
       </div>
     </div>
   );
